@@ -15,5 +15,7 @@ public class Example : MonoBehaviour
     void Update()
     {
         //  감사감사 ㅎㅎ
+
+        // 휴학하고싶다아아아~
     }
 }
