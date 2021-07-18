@@ -107,6 +107,10 @@ public class PlayerControl : MonoBehaviour
 
     void Move()
     {
+        // Scene View에서 플레이어가 바라보는 방향(정면)으로 플레이어 머리에서 레이저를 쏘는 것으로 보여줌
+        // 주의) y값을 반영하면 카메라가 보는 각도로 인해 바닥이나 하늘을 바라보게 되고, 이대로 앞으로 가면 하늘로 승천하거나 땅으로 파묻혀 들어갈 수 있어 y값을 반드시 0으로!
+        Debug.DrawRay(this.transform.position + new Vector3(0, 1, 0), new Vector3(cam.transform.forward.x, 0f, cam.transform.forward.z).normalized, Color.blue);
+
         // 이동 입력
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
