@@ -13,16 +13,23 @@ public class PlayerControl : MonoBehaviour
     Camera cam;
     public float rotSpeed = 10f;
 
+    bool isMovable;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
+        isMovable = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isMovable == false)
+        {
+            return;
+        }
         //MovePosition();
         //MoveTranslate();
         Move();
@@ -140,5 +147,10 @@ public class PlayerControl : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    public void CannotMove()
+    {
+        isMovable = false;
     }
 }
