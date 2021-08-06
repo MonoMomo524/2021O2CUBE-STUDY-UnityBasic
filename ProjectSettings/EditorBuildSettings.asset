@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/FallGuys.unity
+    guid: c70f9cc85ba1bef40bbc5765b69e6829
+  - enabled: 1
     path: Assets/Scenes/NewWorld.unity
     guid: d5741718b56e14046a16c6d8a1f06eb5
   m_configObjects: {}

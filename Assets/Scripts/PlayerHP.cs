@@ -41,7 +41,7 @@ public class PlayerHP : MonoBehaviour
         // 대소문자까지 모두 일치해야 판정됨
         if (other.gameObject.name == "Fire" && HPSlider.value > 0)
         {
-            HPSlider.value -= .5f;
+            HPSlider.value -= .25f;
         }
         else if(other.gameObject.name == "Water" && HPSlider.value < 100)
         {

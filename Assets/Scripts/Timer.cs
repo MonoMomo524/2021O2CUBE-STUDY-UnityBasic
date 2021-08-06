@@ -47,7 +47,7 @@ public class Timer : MonoBehaviour
     public void StartTimer()
     {
         Timer.IsOver = false;
-        time = 91;  // 타이머 시작 시간을 90초로 맞추기 위해 91부터 카운트 다운
+        time = 121;  // 타이머 시작 시간을 n초로 맞추기 위해 n+1부터 카운트 다운
     }
 
     // 타이머가 다 됐을 때 발동하는 메소드

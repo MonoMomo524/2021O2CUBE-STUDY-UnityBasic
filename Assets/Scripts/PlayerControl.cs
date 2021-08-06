@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerControl : MonoBehaviour
     public float rotSpeed = 10f;
 
     bool isMovable;
+
+    public UnityEvent OnPlayerFall;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,13 @@ public class PlayerControl : MonoBehaviour
         }
         //MovePosition();
         //MoveTranslate();
+
+        // 점프 확인
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
         Move();
     }
 
@@ -40,12 +50,6 @@ public class PlayerControl : MonoBehaviour
     // 과도하게 Update함수를 호출할 필요가 없어진다!
     private void FixedUpdate()
     {
-        // 점프 확인
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-
         // 이동
         //MoveForce();
         //MoveVelocity();
@@ -133,24 +137,42 @@ public class PlayerControl : MonoBehaviour
         this.transform.position += moveDir * Time.deltaTime * speed;
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.CompareTag("Ground"))
+        if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = true;
+            this.transform.parent = collision.transform;
         }
     }
+
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    if(collision.transform.CompareTag("Ground"))
+    //    {
+    //        isGrounded = true;
+    //    }
+    //}
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = false;
+            this.transform.parent = null;
         }
     }
 
     public void CannotMove()
     {
         isMovable = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Fall"))
+        {
+            OnPlayerFall.Invoke();  // OnPlayerFall 이벤트 발동!!
+        }
     }
 }

@@ -82,6 +82,7 @@ public class TPSCamera : MonoBehaviour
         // 카메라에서 플레이어를 향해 레이저를 쏘았을 때 맞은 오브젝트가 있다면
         if (Physics.Raycast(transform.position, direction, out hit, distance))
         {
+            Debug.DrawRay(transform.position, direction * distance, Color.red);
             // 기존에 투명화한 오브젝트와 다른 오브젝트이면
             if (transparentObj != null && transparentObj != hit.collider.gameObject)
                 RestoreMaterial();
@@ -113,6 +114,9 @@ public class TPSCamera : MonoBehaviour
     // 기존 투명화한 오브젝트를 원상복구 하는 메소드
     void RestoreMaterial()
     {
+        if (ObstacleRenderer == null)
+            return; 
+
         Material material = ObstacleRenderer.material;
         Color matColor = material.color;
         matColor.a = 1f;
