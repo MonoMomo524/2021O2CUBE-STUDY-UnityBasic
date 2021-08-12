@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class WindPanel : MonoBehaviour
 {
-    float power = 30f;
+    float power = 25;
+    Rigidbody playerRidbody;
     bool isActivated = false;
+    ParticleSystem particle;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        particle = GetComponent<ParticleSystem>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        if (isActivated)
+        {
+            playerRidbody.AddForce(Vector3.up * power, ForceMode.Force); // 천천히 위로 날려버리기
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,22 +29,24 @@ public class WindPanel : MonoBehaviour
         {
             StartCoroutine(other.GetComponent<PlayerControl>().SturnState());   // 플레이어에게 스턴 걸기
 
+            playerRidbody = other.GetComponent<Rigidbody>();
             isActivated = true;
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            StartCoroutine(ActivateWind(rb));
+            StartCoroutine(ActivateWind());
         }
     }
 
-    IEnumerator ActivateWind(Rigidbody rb)
+    IEnumerator ActivateWind()
     {
+        particle.Play();
         float sec = 0f;
-        while (sec < 3.5f)
+        while (sec < 2f)
         {
             yield return new WaitForSeconds(0.1f);
             sec += 0.1f;
-            rb.AddForce(Vector3.up * power, ForceMode.Acceleration); // 천천히 위로 날려버리기
         }
 
         isActivated = false;
+        playerRidbody = null;
+        particle.Stop();
     }
 }

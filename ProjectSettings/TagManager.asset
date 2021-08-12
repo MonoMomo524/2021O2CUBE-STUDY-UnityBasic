@@ -8,6 +8,8 @@ TagManager:
   - Fall
   - Fire
   - Wind
+  - PlayerEyes
+  - Goal
   layers:
   - Default
   - TransparentFX

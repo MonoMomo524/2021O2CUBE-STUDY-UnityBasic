@@ -7,6 +7,7 @@ public class PlayerControl : MonoBehaviour
 {
     float speed = 5f;
     Rigidbody rb;
+    Animator animator;
 
     float jumpForce = 10f;
     private bool isGrounded;
@@ -22,6 +23,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
         cam = Camera.main;
         isMovable = true;
     }
@@ -77,18 +79,22 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             this.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            animator.SetBool("IsRunning", true);
         }
         if (Input.GetKey(KeyCode.A))
         {
             this.transform.Translate(Vector3.left * speed * Time.deltaTime);
+            animator.SetBool("IsRunning", true);
         }
         if (Input.GetKey(KeyCode.S))
         {
             this.transform.Translate(Vector3.back * speed * Time.deltaTime);
+            animator.SetBool("IsRunning", true);
         }
         if (Input.GetKey(KeyCode.D))
         {
             this.transform.Translate(Vector3.right * speed * Time.deltaTime);
+            animator.SetBool("IsRunning", true);
         }
     }
 
@@ -103,6 +109,7 @@ public class PlayerControl : MonoBehaviour
 
         // 이동(힘 가하기)
         rb.AddForce(direction * speed);
+        animator.SetBool("IsRunning", true);
     }
 
     void MoveVelocity()
@@ -114,6 +121,7 @@ public class PlayerControl : MonoBehaviour
         // 이동 방향
         Vector3 direction = new Vector3(h, 0, v);
         rb.velocity = direction * speed;
+        animator.SetBool("IsRunning", true);
     }
 
     void Move()
@@ -124,6 +132,10 @@ public class PlayerControl : MonoBehaviour
 
         // 이동 입력
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if(moveInput != Vector2.zero)
+            animator.SetBool("IsRunning", true);
+        else
+            animator.SetBool("IsRunning", false);
 
         // 전방 주시
         // 정규화를 통해 1만큼의 길이(방향값) 구함
@@ -142,6 +154,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = true;
+            animator.SetBool("IsJumping", false);
             this.transform.parent = collision.transform;
         }
     }
@@ -159,6 +172,7 @@ public class PlayerControl : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = false;
+            animator.SetBool("IsJumping", true);
             this.transform.parent = null;
         }
     }
@@ -182,7 +196,7 @@ public class PlayerControl : MonoBehaviour
         float sec = 0f;
         // 3초동안 스턴 상태(움직일 수 없음)
         isMovable = false;
-        while (sec<3f)
+        while (sec<2f)
         {
             yield return new WaitForSeconds(0.1f);
             sec += 0.1f;

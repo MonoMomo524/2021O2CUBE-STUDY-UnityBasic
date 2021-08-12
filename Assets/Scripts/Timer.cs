@@ -7,7 +7,7 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     private TextMeshProUGUI timerText;
-    public float time;
+     float time;
     private int currentTime = 0;
 
     public static bool IsOver = false;
@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour
     private void Update()
     {
         // 타이머가 끝나지 않았다면
-        if(Timer.IsOver == false || time > 0)
+        if(Timer.IsOver == false && time > 0)
         {
             time -= Time.deltaTime;
             currentTime = (int)time;

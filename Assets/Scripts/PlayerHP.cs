@@ -48,8 +48,11 @@ public class PlayerHP : MonoBehaviour
         // 대소문자까지 모두 일치해야 판정됨
         if (other.gameObject.CompareTag("Fire") && HPSlider.value > 0)
         {
-            HPSlider.value -= 0.1f;
-            GetComponent<Rigidbody>().AddForce(Vector3.up * 0.3f, ForceMode.Impulse); // 아뜨뜨!!
+            if (other.GetComponent<FirePanel>().IsActivated() == false)
+                return;
+
+            HPSlider.value -= 1f;
+            GetComponent<Rigidbody>().AddForce(Vector3.up, ForceMode.Impulse); // 아뜨뜨!!
         }
         //else if(other.gameObject.name == "Water" && HPSlider.value < 100)
         //{
