@@ -175,4 +175,19 @@ public class PlayerControl : MonoBehaviour
             OnPlayerFall.Invoke();  // OnPlayerFall 이벤트 발동!!
         }
     }
+
+    // 플레이어를 스턴 상태로 만드는 코루틴
+    public IEnumerator SturnState()
+    {
+        float sec = 0f;
+        // 3초동안 스턴 상태(움직일 수 없음)
+        isMovable = false;
+        while (sec<3f)
+        {
+            yield return new WaitForSeconds(0.1f);
+            sec += 0.1f;
+        }
+
+        isMovable = true;
+    }
 }

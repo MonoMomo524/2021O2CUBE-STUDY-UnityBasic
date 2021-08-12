@@ -33,20 +33,28 @@ public class PlayerHP : MonoBehaviour
             Timer.IsOver = true;
             Dead(); // 플레이어 사망 시 다른 클래스에서도 사망 관련 처리 실행
         }
+        // 0은 아니지만 100보다 작으면 서서히 회복
+        else if(HPSlider.value < 100)
+        {
+            HPSlider.value += .01f;
+            if (HPSlider.value > 100)
+                HPSlider.value = 100;
+        }
     }
 
     // 트리거가 지속적으로 감지되는지 확인
     void OnTriggerStay(Collider other)
     {
         // 대소문자까지 모두 일치해야 판정됨
-        if (other.gameObject.name == "Fire" && HPSlider.value > 0)
+        if (other.gameObject.CompareTag("Fire") && HPSlider.value > 0)
         {
-            HPSlider.value -= .25f;
+            HPSlider.value -= 0.1f;
+            GetComponent<Rigidbody>().AddForce(Vector3.up * 0.3f, ForceMode.Impulse); // 아뜨뜨!!
         }
-        else if(other.gameObject.name == "Water" && HPSlider.value < 100)
-        {
-            HPSlider.value += .1f;
-        }
+        //else if(other.gameObject.name == "Water" && HPSlider.value < 100)
+        //{
+        //    HPSlider.value += .1f;
+        //}
     }
 
     private void Dead()
